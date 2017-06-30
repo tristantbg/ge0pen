@@ -1,0 +1,433 @@
+@import 'nib'
+@import '../../node_modules/jeet/stylus/jeet/*'
+@import '_mixins.styl'
+
+// Media queries
+$xl = 1600px
+$lg = 1260px
+$md = 1023px
+$sm = 767px
+
+// Colors
+$primary ?= #fff
+$secondary ?= #000
+$print ?= rgb(255,0,0)
+$motion ?= rgb(0,255,0)
+$services ?= rgb(0,0,255)
+
+// Metrics
+$padding = 1rem
+$frame = 1rem
+$kinetic = cubic-bezier(0.77, 0, 0.175, 1)
+
+// CSS Reset
+global-reset()
+
+webfont('Nuckle_Book', 'Nuckle_Book', true, 'normal')
+
+body,html
+	width 100%
+	-webkit-text-size-adjust 100%
+	background $primary
+
+html
+	font-size 62.5%
+
+body
+	font-family 'Nuckle_Book', Helvetica Neue, Arial, sans-serif
+	font-size 1.2rem
+	text-rendering optimizeLegibility
+	font-smoothing()
+	font-variant-ligatures: contextual;
+	-moz-font-feature-settings: "calt";
+	-webkit-font-feature-settings: "calt";
+	font-feature-settings: "calt";
+
+p
+	margin-bottom 1em
+	line-height 100%
+	&:last-child
+		margin-bottom 0
+
+.categories, .lead
+	font-size 5vh
+
+::selection
+	color $primary
+	background $secondary
+	
+::-moz-selection
+	color $primary
+	background $secondary
+
+::-webkit-scrollbar
+	display none
+
+*
+	//hideselect()
+	box-sizing(border-box)
+
+.divider, .item-marquee__copy
+	&::after
+		content url(../../images/bullet-b.svg)
+		width 1em
+		height 1em
+		margin 0 .2em .2em
+		vertical-align middle
+		transform-origin center
+		display inline-block
+		transform(scale(.60))
+
+video::-webkit-media-controls
+	display none
+
+/* Could Use thise as well for Individual Controls */
+video::-webkit-media-controls-play-button {}
+
+video::-webkit-media-controls-volume-slider {}
+
+video::-webkit-media-controls-mute-button {}
+
+video::-webkit-media-controls-timeline {}
+
+video::-webkit-media-controls-current-time-display {}
+
+a, a:hover, a:visited, a:focus
+	color inherit
+	text-decoration none
+	cursor pointer
+
+#outdated
+	display none
+	text-align center
+	position fixed
+	width 100%
+	height 100%
+	top 0
+	left 0
+	background $primary
+	z-index 900
+	a
+		border-bottom 1px solid
+	.inner
+		padding 8rem 20%
+
+.no-js, .no-svg, .no-flexbox
+	#outdated
+		display block
+
+// @keyframes color {
+//     100%, 0% {
+//         stroke: #40382e
+//     }
+//     40% {
+//         stroke: #0f0f0f
+//     }
+//     66% {
+//         stroke: #40382e
+//     }
+//     80%, 90% {
+//         stroke: #0f0f0f
+//     }
+// }
+
+@keyframes rotate {
+    100% {
+        transform(rotate(360deg))
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0
+    }
+    30% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px
+    }
+}
+
+.loader
+	position fixed
+	width 100%
+	height 100%
+	top 0
+	left 0
+	//background $primary url('../../images/loader.gif') center no-repeat
+	background $primary
+	background-size 15px
+	z-index 10000
+	.spinner
+		width 50px
+		height 50px
+		align()
+		.circular
+			animation rotate 2s linear infinite
+			height 100%
+			transform-origin center center
+			width 100%
+			position absolute
+			top 0
+			bottom 0
+			left 0
+			right 0
+			margin auto
+			.path
+				stroke $secondary
+				stroke-dasharray 1, 200
+				stroke-dashoffset 0
+				animation dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite
+
+#intro
+	hideselect()
+	position fixed
+	width 100%
+	height 100%
+	top 0
+	left 0
+	z-index 500
+	background $primary
+	text-align center
+	cursor pointer
+	div.logo
+		align()
+		top 56%
+		width 100%
+		color $secondary
+		font-size 26vw
+		white-space nowrap
+		padding 0 5%
+
+#container
+	span(1)
+
+header
+	hideselect()
+	display inline-flex
+	width 100%
+	position fixed
+	top 0
+	left 0
+	padding $padding
+	white-space nowrap
+	z-index 100
+	#site-title
+		text-transform uppercase
+		width 16.666666666666664%
+		margin-left 8.583333333333332%
+	.menu-item
+		width 25%
+		&.right
+			text-align right
+		&.center
+			text-align center
+	#site-title, .menu-item
+		padding-right 5%
+	#back
+		position absolute
+		height 1rem
+		width 1rem
+		top $padding
+		left $padding
+		display none
+		a::before
+			content '\2190'
+
+#page-content
+	span(1)
+	padding 0 $padding
+	&.projects
+		margin-top 3rem
+
+#page-content.projects
+	padding '0 calc(%s + 2.8vh)' % ($padding)
+	hideselect()
+	.categories
+		position fixed
+		top 0
+		left $padding
+		width 100vh
+		transform(rotate(-90deg) translateX(-100vh))
+		transform-origin top left
+		display inline-flex
+		justify-content center
+		align-items center
+		text-transform uppercase
+		z-index 0
+		.category
+			position relative
+			margin 0 $padding
+		&.top
+			z-index 3
+			.category:not(.active)
+				visibility hidden
+	.category-grid
+		display inline-flex
+		justify-content space-between
+		align-items center
+		flex-wrap wrap
+		background $primary
+		position relative
+		z-index 1
+		&::before, &::after
+			display none
+		&.active
+			z-index 2
+		&:not(:last-child)
+			margin-bottom 20rem
+		.row.center
+			span(1)
+			text-align center
+			margin-top 1em
+		.project-item
+			flex 1
+			+below($md)
+				width 100%
+				flex auto
+			&.size-2
+				+above($md + 1)
+					flex 2
+			&.size-3
+				+above($md + 1)
+					flex 3
+			&.pos-top
+				align-self flex-start
+			&.pos-bottom
+				align-self flex-end
+			&.clearfix
+				&::before
+				&::after
+					content ''
+					flex-basis 0
+					order 1
+			.project-image
+				width auto
+				height auto
+				padding $frame
+				position relative
+				// flexbox()
+				// justify-content center
+				// align-items center
+				img
+					display block
+					max-height 100%
+					max-width 100%
+					width initial
+					height initial
+			.item-marquee
+				visibility hidden
+				position absolute
+				top 50%
+				left 0
+				width 100%
+				text-transform uppercase
+				color $primary
+				overflow hidden
+				padding-bottom 2rem
+				+below($md)
+					display none
+				.divider, .item-marquee__copy
+					&::after
+						content url(../../images/bullet-w.svg)
+			.item-infos
+				text-transform uppercase
+				padding 0 $frame
+				+above($md + 1)
+					display none
+			&:hover
+				.item-marquee
+					visibility visible
+
+#page-content.project
+	padding 0
+	.slider
+		height 100vh
+		hideselect()
+		.flickity-slider
+			transform(none !important)
+		.slide
+			height 100%
+			width 100%
+			display inline-flex
+			justify-content center
+			left 0 !important
+			visibility hidden
+			.content
+				height 100%
+				padding 2rem 0
+			.content.video
+				width 100%
+		.slide.is-selected
+			visibility visible
+			z-index 1
+		.flickity-prev-next-button
+			cursor none !important
+			top 0
+			height 100%
+			width 25%
+			margin-top 0
+			background transparent
+			padding 0
+			transform(none)
+			border none
+			border-radius 0
+			z-index 10
+			+below($md)
+				display none
+			svg
+				display none
+			&.previous
+				left 0
+			&.next
+				right 0
+			&[disabled]
+				display none
+	#project-description
+		position fixed
+		bottom ($padding*2)
+		left $paddingSides
+	&:hover
+		#mouse-nav
+			display block
+
+#mouse-nav
+	align()
+	position fixed
+	color $secondary
+	z-index 300
+	white-space nowrap
+	cursor none
+	pointer-events none
+	display none
+	&.left
+		.arrow::before
+			content '\2190'
+	&.right
+		.arrow::before
+			content '\2192'
+	.play::before
+		content 'play'
+	.pause::before
+		content 'pause'
+	.back::before
+		content 'back'
+		color $primary
+	span
+		display none
+	&.left, &.right
+		.arrow
+			display block
+	&.middle.back
+		.back
+			display block
+	&.middle.play
+		.play
+			display block
+	&.middle.pause
+		.pause
+			display block
