@@ -36,6 +36,10 @@ $(function() {
                     $body.removeClass('intro');
                     intro = false;
                 });
+                $body.on('click', '.overview', function(event) {
+                  event.preventDefault();
+                  $(".overview-nav").toggleClass('visible');
+                });
                 // $('.project-item.print img').load(function(el) {
                 //     console.log('go');
                 //     $el = $(el);

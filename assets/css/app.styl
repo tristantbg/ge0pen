@@ -222,7 +222,7 @@ a, a:hover, a:visited, a:focus
 			left 0 !important
 			visibility hidden
 			.content
-				width 33%
+				width 30%
 		.slide.is-selected, .slide.overlap
 			visibility visible
 			//z-index 1
@@ -417,6 +417,8 @@ header
 				height 100%
 				padding 8% 0
 				display inline-flex
+				background url('../../images/loader.gif') center no-repeat
+				background-size 7px
 			.content.video
 				width 100%
 		.slide.is-selected
@@ -462,13 +464,14 @@ header
 		background $primary
 		transition(transform 600ms ease)
 		transform(translateY(20rem - $padding) translateZ(0))
-		&.visible, &:hover
+		&.visible//, &:hover
 			transition(transform 400ms $kinetic)
 			transform(translateY(0) translateZ(0))
 			.top-bar
 				.overview
-					transform(translateY(-2rem) translateZ(0))
-					//content 'Close'
+					//transform(translateY(-2rem) translateZ(0))
+					&::after
+						content 'Close'
 		.top-bar
 			width 100%
 			display inline-flex
@@ -482,7 +485,7 @@ header
 				text-align center
 				text-transform uppercase
 			.overview
-				transition(transform 400ms $kinetic)
+				//transition(transform 400ms $kinetic)
 				cursor pointer
 				text-align right
 				&::after
@@ -514,6 +517,6 @@ body.is-loading
 		visibility hidden
 
 body.idle
-	header div:not(#site-title), .flickity-prev-next-button, .overview-nav
+	header div:not(#site-title), .flickity-prev-next-button, .overview-nav:not(.visible)
 		transition(opacity 200ms ease)
 		opacity 0
