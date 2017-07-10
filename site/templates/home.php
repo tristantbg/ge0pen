@@ -2,31 +2,18 @@
 
 <div id="page-content" class="projects">
 
-	<div class="categories top">
-		<?php foreach ($categories->flip() as $key => $category): ?>
-			<div class="category active" data-category="<?= $category->uid() ?>">
-				<?= $category->title()->html() ?>
-			</div>
-		<?php endforeach ?>
-	</div>
-
-	<div class="categories behind">
-		<?php foreach ($categories->flip() as $key => $category): ?>
-			<div class="category" data-category="<?= $category->uid() ?>">
-				<?= $category->title()->html() ?>
-			</div>
-		<?php endforeach ?>
-	</div>
-
 	<div id="projects">
 
 	<?php $positions = ['top','middle','bottom']; ?>
+
+	
+
 
 	<?php foreach ($categories as $key => $category): ?>
 
 		<?php $projects = $category->children()->visible(); ?>
 
-		<div class="category-grid" data-category="<?= $category->uid() ?>">
+		<div id="grid-<?= $category->uid() ?>" class="category-grid" data-category="<?= $category->uid() ?>">
 
 		<?php foreach ($projects as $key => $project): ?>
 
@@ -38,26 +25,37 @@
 				if ($project->subtitle()->isNotEmpty()) {
 					$title .= '<span class="divider"></span>'.$project->subtitle()->html();
 				}
+				$titleEscape = $project->title()->escape();
+				if ($project->subtitle()->isNotEmpty()) {
+					$titleEscape .= '<span class=&quot;divider&quot;></span>'.$project->subtitle()->escape();
+				}
 				$position = $project->position();
 				if ($position == 'pos-random') {
 					$position = 'pos-'.$positions[array_rand($positions)];
 				}
+				$size = $project->size();
+				if ($size == 'random') {
+					$size = 'size-'.rand(1,3);
+				}
+				$srcset = '';
+				for ($i = 500; $i <= 2000; $i += 500) $srcset .= resizeOnDemand($featured, $i) . ' ' . $i . 'w,';
 				?>
 
-				<div class="project-item <?= $featured->orientation() ?> <?= $project->itemsize() ?> <?= $position ?>">
+				<div class="project-item <?= $featured->orientation() ?> <?= 'size-'.$size ?> <?= $position ?>">
 
-				<a href="<?= $project->url() ?>" data-target="<?= $project->category() ?>-project">
+				<a href="<?= $project->url() ?>" data-target="project">
 
-					<div class="project-image">
+					<div class="project-image" data-id="<?= $project->uid() ?>" data-marquee="<?= $titleEscape ?>">
 						<img 
-						class="lazyimg lazyload" 
-						src="<?= resizeOnDemand($featured, 600) ?>" 
-						data-src="<?= resizeOnDemand($featured, 1300) ?>" 
+						class="lazyimg lazyload lazypreload" 
+						src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 
+						src="<?= resizeOnDemand($featured, 100) ?>" 
+						data-src="<?= resizeOnDemand($featured, 1500) ?>" 
+						data-srcset="<?= $srcset ?>" 
+						data-sizes="auto" 
+						data-optimumx="1.5" 
 						alt="<?= $project->title()->html().' - © '.$site->title()->html() ?>" 
 						width="100%" height="auto" />
-						<div class="item-marquee" data-speed="0.5" data-pausable="true">
-							<span><?= $title ?></span>
-						</div>
 					</div>
 					<div class="item-infos">
 						<?= $title ?>

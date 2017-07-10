@@ -17,7 +17,7 @@ $services ?= rgb(0,0,255)
 
 // Metrics
 $padding = 1rem
-$frame = 1rem
+$frame = 3rem
 $kinetic = cubic-bezier(0.77, 0, 0.175, 1)
 
 // CSS Reset
@@ -49,8 +49,20 @@ p
 	&:last-child
 		margin-bottom 0
 
-.categories, .lead
+#categories, .lead, strong
 	font-size 5vh
+
+#page-content
+	.lead, strong
+		line-height 110%
+		display block
+		margin-bottom 1.5em
+	em
+		display block
+		margin-left 8.4%
+	&.default
+		p
+			margin 0 8.4%
 
 ::selection
 	color $primary
@@ -67,7 +79,7 @@ p
 	//hideselect()
 	box-sizing(border-box)
 
-.divider, .item-marquee__copy
+.divider, .item-marquee__copy, .flickity-prev-next-button
 	&::after
 		content url(../../images/bullet-b.svg)
 		width 1em
@@ -190,18 +202,73 @@ a, a:hover, a:visited, a:focus
 	height 100%
 	top 0
 	left 0
-	z-index 500
+	z-index 400
 	background $primary
 	text-align center
 	cursor pointer
-	div.logo
-		align()
-		top 56%
-		width 100%
-		color $secondary
-		font-size 26vw
-		white-space nowrap
-		padding 0 5%
+	.slider-intro
+		height 100vh
+		hideselect()
+		.flickity-slider
+			transform(none !important)
+		.flickity-viewport
+			cursor pointer
+		.slide
+			height 100%
+			width 100%
+			flexbox()
+			justify-content center
+			align-items center
+			left 0 !important
+			visibility hidden
+			.content
+				width 33%
+		.slide.is-selected, .slide.overlap
+			visibility visible
+			//z-index 1
+
+#categories
+	visibility hidden
+	position fixed
+	top 0
+	left $padding
+	width 100vh
+	transform(rotate(-90deg) translateX(-100vh))
+	transform-origin top left
+	display inline-flex
+	justify-content center
+	align-items center
+	text-transform uppercase
+	z-index 3
+	.category
+		cursor pointer
+		position relative
+		margin 0 $padding
+		transition(transform 400ms ease)
+		transform(translateY(-0.75em) translateZ(0))
+		&.active, &:hover
+			transform(translateY(0) translateZ(0))
+
+body.intro
+	#container
+		transform(translateY(100vh) translateZ(0))
+	#categories
+		transform(rotate(-90deg) translateX(-200vh))
+
+body:not(.intro)
+	header
+		#site-title, .menu-item
+			transition(transform 2s $kinetic)
+			transform(translateZ(0) !important)
+	#intro
+		transition(transform 2s $kinetic)
+		transform(translateY(-100%) translateZ(0))
+	#container
+		transition(transform 2s $kinetic)
+		transform(translateZ(0) translateZ(0))
+	#categories
+		transition(transform 2s $kinetic)
+		transform(rotate(-90deg) translateX(-100vh))
 
 #container
 	span(1)
@@ -215,7 +282,7 @@ header
 	left 0
 	padding $padding
 	white-space nowrap
-	z-index 100
+	z-index 500
 	#site-title
 		text-transform uppercase
 		width 16.666666666666664%
@@ -232,43 +299,28 @@ header
 		position absolute
 		height 1rem
 		width 1rem
+		//top ($padding - 0.2)
 		top $padding
 		left $padding
 		display none
 		a::before
 			content '\2190'
+			//font-size 1.7rem
 
 #page-content
 	span(1)
 	padding 0 $padding
-	&.projects
-		margin-top 3rem
+	margin-top 6rem
 
 #page-content.projects
-	padding '0 calc(%s + 2.8vh)' % ($padding)
+	padding '0 calc(%s + 8.583333333333332%)' % ($padding)
+	margin-top 0
 	hideselect()
-	.categories
-		position fixed
-		top 0
-		left $padding
-		width 100vh
-		transform(rotate(-90deg) translateX(-100vh))
-		transform-origin top left
+	.category-grid
+		margin-top 7rem
+		width 100%
 		display inline-flex
 		justify-content center
-		align-items center
-		text-transform uppercase
-		z-index 0
-		.category
-			position relative
-			margin 0 $padding
-		&.top
-			z-index 3
-			.category:not(.active)
-				visibility hidden
-	.category-grid
-		display inline-flex
-		justify-content space-between
 		align-items center
 		flex-wrap wrap
 		background $primary
@@ -279,22 +331,26 @@ header
 		&.active
 			z-index 2
 		&:not(:last-child)
-			margin-bottom 20rem
+			margin-bottom 6rem
 		.row.center
 			span(1)
 			text-align center
 			margin-top 1em
 		.project-item
-			flex 1
+			//flex 1
+			width 28%
+			margin-bottom ($frame*3)
 			+below($md)
 				width 100%
 				flex auto
 			&.size-2
 				+above($md + 1)
-					flex 2
+					//flex 2
+					width 33%
 			&.size-3
 				+above($md + 1)
-					flex 3
+					//flex 3
+					width 38%
 			&.pos-top
 				align-self flex-start
 			&.pos-bottom
@@ -305,20 +361,17 @@ header
 					content ''
 					flex-basis 0
 					order 1
+			a
+				display block
+				padding 0 $frame
 			.project-image
-				width auto
-				height auto
-				padding $frame
+				//cursor none
 				position relative
 				// flexbox()
 				// justify-content center
 				// align-items center
 				img
 					display block
-					max-height 100%
-					max-width 100%
-					width initial
-					height initial
 			.item-marquee
 				visibility hidden
 				position absolute
@@ -335,21 +388,24 @@ header
 					&::after
 						content url(../../images/bullet-w.svg)
 			.item-infos
+				margin-top .1rem
 				text-transform uppercase
-				padding 0 $frame
 				+above($md + 1)
 					display none
 			&:hover
-				.item-marquee
+				.item-marquee.is-init
 					visibility visible
 
 #page-content.project
 	padding 0
+	margin-top 0
 	.slider
 		height 100vh
 		hideselect()
 		.flickity-slider
 			transform(none !important)
+		.flickity-viewport
+			cursor default
 		.slide
 			height 100%
 			width 100%
@@ -359,17 +415,18 @@ header
 			visibility hidden
 			.content
 				height 100%
-				padding 2rem 0
+				padding 8% 0
+				display inline-flex
 			.content.video
 				width 100%
 		.slide.is-selected
 			visibility visible
 			z-index 1
 		.flickity-prev-next-button
-			cursor none !important
+			//cursor none !important
 			top 0
 			height 100%
-			width 25%
+			width 20%
 			margin-top 0
 			background transparent
 			padding 0
@@ -381,53 +438,82 @@ header
 				display none
 			svg
 				display none
+			&::after
+				margin 0 $padding
 			&.previous
 				left 0
+				text-align left
 			&.next
 				right 0
+				text-align right
 			&[disabled]
 				display none
-	#project-description
+			&:hover
+				&::after
+					transform(scale(0.9))
+	.overview-nav
+		hideselect()
 		position fixed
-		bottom ($padding*2)
-		left $paddingSides
-	&:hover
-		#mouse-nav
+		bottom 0
+		left 0
+		width 100%
+		padding $padding $padding 0
+		z-index 100
+		background $primary
+		transition(transform 600ms ease)
+		transform(translateY(20rem - $padding) translateZ(0))
+		&.visible, &:hover
+			transition(transform 400ms $kinetic)
+			transform(translateY(0) translateZ(0))
+			.top-bar
+				.overview
+					transform(translateY(-2rem) translateZ(0))
+					//content 'Close'
+		.top-bar
+			width 100%
+			display inline-flex
+			justify-content space-between
+			align-items center
+			overflow hidden
+			.job-title, .overview
+				width 25%
+			.project-title
+				flex-grow 1
+				text-align center
+				text-transform uppercase
+			.overview
+				transition(transform 400ms $kinetic)
+				cursor pointer
+				text-align right
+				&::after
+					content 'Overview'
+		.slider-nav
+			width 100%
+			padding $padding 0
+			height 20rem
+			.slide
+				height 100%
+				margin 0 .3rem
+				display inline-flex
+
+body.projects
+	#categories
+		visibility visible
+
+body.project
+	overflow hidden
+
+body.project, body.default
+	header
+		#back
 			display block
 
-#mouse-nav
-	align()
-	position fixed
-	color $secondary
-	z-index 300
-	white-space nowrap
-	cursor none
-	pointer-events none
-	display none
-	&.left
-		.arrow::before
-			content '\2190'
-	&.right
-		.arrow::before
-			content '\2192'
-	.play::before
-		content 'play'
-	.pause::before
-		content 'pause'
-	.back::before
-		content 'back'
-		color $primary
-	span
-		display none
-	&.left, &.right
-		.arrow
-			display block
-	&.middle.back
-		.back
-			display block
-	&.middle.play
-		.play
-			display block
-	&.middle.pause
-		.pause
-			display block
+body.is-loading
+	cursor wait !important
+	#back, #page-content, #categories
+		visibility hidden
+
+body.idle
+	header div:not(#site-title), .flickity-prev-next-button, .overview-nav
+		transition(opacity 200ms ease)
+		opacity 0

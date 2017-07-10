@@ -6,6 +6,7 @@ return function ($site, $pages, $page) {
 	//$projects = $categories->grandChildren()->visible();
 	$pTemplate = $page->intendedTemplate();
 	$bodyClass = $pTemplate;
+	if($bodyClass == 'home') $bodyClass = 'projects';
 	return array(
 	'menuPage' => $menuPage,
 	'bodyClass' => $bodyClass,

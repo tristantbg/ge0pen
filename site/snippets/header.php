@@ -71,7 +71,7 @@
 
 </head>
 
-<body class="<?= $bodyClass ?>">
+<body class="<?= $bodyClass ?><?php e($page->isHomepage(),' intro') ?>">
 
 <div id="outdated">
 	<div class="inner">
@@ -83,25 +83,40 @@
 <div class="loader">
 </div>
 
+<div id="intro">
+	<div class="slider-intro">
+		<?php $idx = 0 ?>
+		<?php foreach ($site->homepage()->featured()->toStructure()->shuffle() as $key => $image): ?>
+			<?php $image = $image->toFile(); ?>
+				<div class="slide">
+					<div class="content">
+						<img class="lazyimg lazyload lazypreload" src="<?= resizeOnDemand($image, 1200) ?>" width="100%" height="auto" />
+					</div>
+				</div>
+		<?php $idx++ ?>
+		<?php endforeach ?>
+	</div>
+</div>
+
 <div id="main">
 
 <?php $positions = ['left','center','right'] ?>
 
 <header>
-	<div id="back"><a href="<?= $site->url() ?>" data-target="index"></a></div>
+	<div id="back"><a href="<?= $site->url() ?>" data-target="projects"></a></div>
 	<div id="site-title">
-		<a href="<?= $site->url() ?>" data-target="index">
+		<a href="<?= $site->url() ?>" data-target="projects" event-target="intro-change">
 			<?= $site->title()->html() ?>
 		</a>
 	</div>
-	<div class="menu-item <?= $positions[array_rand($positions)] ?>">
-		<a href="<?= $site->url() ?>" data-target="index">
+	<div class="menu-item <?= $positions[array_rand($positions)] ?>" event-target="intro-change">
+		<a href="<?= $site->url() ?>" data-target="projects">
 			<?= $site->homepage()->title()->html() ?>
 		</a>
 	</div>
 	<?php if($menuPage && $menuPage->isNotEmpty()): ?>
 	<div class="menu-item <?= $positions[array_rand($positions)] ?>">
-		<a href="<?= $menuPage->url() ?>" data-target="page">
+		<a href="<?= $menuPage->url() ?>" data-target="default">
 			<?= $menuPage->title()->html() ?>
 		</a>
 	</div>
@@ -114,5 +129,13 @@
 	</div>
 	<?php endif ?>
 </header>
+
+<div id="categories">
+	<?php foreach ($categories->flip() as $key => $category): ?>
+		<div class="category" data-category="<?= $category->uid() ?>">
+			<div data-category="<?= $category->uid() ?>"><?= $category->title()->html() ?></div>
+		</div>
+	<?php endforeach ?>
+</div>
 
 <div id="container">

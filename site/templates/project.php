@@ -3,8 +3,13 @@
 <div id="page-content" class="project <?= $page->category() ?>">
 	
 	<div class="slider">
+	
+	<?php $idx = 0 ?>
+	<?php $duo = false ?>
 
 	<?php foreach ($images as $key => $image): ?>
+		
+		<?php if(!$duo): ?>
 
 		<?php $image = $image->toFile(); ?>
 
@@ -47,24 +52,60 @@
 				<noscript>
 					<img src="<?= resizeOnDemand($image, 1500) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 				</noscript>
+				<?php if($image->duo()->bool()): ?>
+					<?php $duo = true ?>
+					<?php $imageduo = $images->get($idx+1)->toFile() ?>
+					<img class="lazyimg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-flickity-lazyload="<?= resizeOnDemand($imageduo, 1500, true) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
+					<noscript>
+						<img src="<?= resizeOnDemand($imageduo, 1500) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
+					</noscript>
+				<?php endif ?>
+				
 			</div>
 		<?php endif ?>
 
 		</div>
 
+		<?php else: ?>
+		<?php $duo = false ?>
+		<?php endif ?>
+
+	<?php $idx++ ?>
 	<?php endforeach ?>
 
 	</div>
-	
-	<div id="project-description">
-		<?= $description ?>
-	</div>
 
-	<div id="mouse-nav" class="<?php e($page->category() == 'print', 'back', 'play') ?>">
-		<span class="arrow"></span>
-		<span class="back"></span>
-		<span class="play"></span>
-		<span class="pause"></span>
+	<div class="overview-nav">
+		<div class="top-bar">
+			<div class="job-title"><?= $page->jobtitle()->html() ?></div>
+			<div class="project-title"><?= $formattedtitle ?></div>
+			<div class="overview"></div>
+		</div>
+		<div class="slider-nav">
+			<?php $idx = 0 ?>
+			<?php $duo = false ?>
+			<?php foreach ($images as $key => $image): ?>
+
+			<?php if(!$duo): ?>
+
+			<?php $image = $image->toFile(); ?>
+			<div class="slide">
+				<img class="lazyimg lazyload lazypreload" src="<?= thumb($image, array('height' => 300))->url() ?>" height="100%" width="auto" />
+				<?php if($image->duo()->bool()): ?>
+					<?php $duo = true ?>
+					<?php $imageduo = $images->get($idx+1)->toFile() ?>
+					<img class="lazyimg lazyload lazypreload" src="<?= thumb($imageduo, array('height' => 300))->url() ?>" height="100%" width="auto" />
+				<?php endif ?>
+			</div>
+			
+			<?php else: ?>
+			<?php $duo = false ?>
+			<?php endif ?>
+
+			<?php $idx++ ?>
+			<?php endforeach ?>
+
+		</div>
 	</div>
 
 </div>

@@ -5,6 +5,7 @@ module.exports = function(grunt) {
                 src: [
                 'site/plugins/embed/assets/js/embed.js',
                 //'assets/js/vendor/jquery-ias.min.js', 
+                'node_modules/smooth-scroll/dist/js/smooth-scroll.js', 
                 'node_modules/flickity/dist/flickity.pkgd.min.js', 
                 'lib/marquee3000/marquee3k-noUMD.min.js',
                 //'node_modules/lazysizes/plugins/object-fit/ls.object-fit.min.js', 
