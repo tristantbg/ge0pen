@@ -14,6 +14,13 @@ files:
       type: text
       icon: code
       help: Youtube ID or Vimeo ID
+    vendor:
+      label: Vendor
+      type: radio
+      default: vimeo
+      options:
+        vimeo: Vimeo 
+        youtube: Youtube
     videoexternal:
       label: Video external file link
       type: url

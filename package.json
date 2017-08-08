@@ -5,8 +5,8 @@
   "devDependencies": {
     "grunt": "*",
     "grunt-contrib-concat": "*",
-    "grunt-contrib-stylus": "*",
     "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-stylus": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "*",
     "grunt-php": "*",
@@ -14,8 +14,10 @@
     "rupture": "*"
   },
   "dependencies": {
-    "flickity": "^2.0.8",
+    "flickity": "^2.0.9",
     "lazysizes": "^4.0.0-rc3",
+    "plyr": "^2.0.13",
+    "smooth-scroll": "github:cferdinandi/smooth-scroll",
     "smoothstate": "^0.7.2"
   }
 }

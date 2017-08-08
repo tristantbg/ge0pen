@@ -7,6 +7,7 @@ module.exports = function(grunt) {
                 //'assets/js/vendor/jquery-ias.min.js', 
                 'node_modules/smooth-scroll/dist/js/smooth-scroll.js', 
                 'node_modules/flickity/dist/flickity.pkgd.min.js', 
+                'node_modules/plyr/dist/plyr.js', 
                 'lib/marquee3000/marquee3k-noUMD.min.js',
                 //'node_modules/lazysizes/plugins/object-fit/ls.object-fit.min.js', 
                 'node_modules/lazysizes/lazysizes.min.js', 
@@ -56,6 +57,7 @@ module.exports = function(grunt) {
             files: {
               'assets/css/build/build.min.css': 
               ['lib/normalize-css/normalize.css', 
+              'assets/css/plyr/scss/plyr.css', 
               'site/plugins/embed/assets/css/embed.css', 
               'node_modules/flickity/dist/flickity.min.css',
               'assets/css/app.min.css']

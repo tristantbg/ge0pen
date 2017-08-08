@@ -1,5 +1,5 @@
 @import 'nib'
-@import '../../node_modules/jeet/stylus/jeet/*'
+@import '../../node_modules/jeet/styl/index';
 @import '_mixins.styl'
 
 // Media queries
@@ -23,7 +23,7 @@ $kinetic = cubic-bezier(0.77, 0, 0.175, 1)
 // CSS Reset
 global-reset()
 
-webfont('Nuckle_Book', 'Nuckle_Book', true, 'normal')
+webfont('NB', 'Nuckle_Book', true, 'normal')
 
 body,html
 	width 100%
@@ -34,7 +34,7 @@ html
 	font-size 62.5%
 
 body
-	font-family 'Nuckle_Book', Helvetica Neue, Arial, sans-serif
+	font-family 'NB', Helvetica Neue, Arial, sans-serif
 	font-size 1.2rem
 	text-rendering optimizeLegibility
 	font-smoothing()
@@ -78,6 +78,12 @@ p
 *
 	//hideselect()
 	box-sizing(border-box)
+
+.lazyimg, .plyr--video
+	opacity 0
+
+.lazyimg.lazyloaded, .lazyimg.flickity-lazyloaded, .plyr--video.plyr--ready
+	opacity 1
 
 .divider, .item-marquee__copy, .flickity-prev-next-button
 	&::after
@@ -231,7 +237,7 @@ a, a:hover, a:visited, a:focus
 	visibility hidden
 	position fixed
 	top 0
-	left $padding
+	left 0
 	width 100vh
 	transform(rotate(-90deg) translateX(-100vh))
 	transform-origin top left
@@ -244,16 +250,18 @@ a, a:hover, a:visited, a:focus
 		cursor pointer
 		position relative
 		margin 0 $padding
+		padding $padding 0
 		transition(transform 400ms ease)
 		transform(translateY(-0.75em) translateZ(0))
 		&.active, &:hover
 			transform(translateY(0) translateZ(0))
 
 body.intro
+	overflow hidden
 	#container
 		transform(translateY(100vh) translateZ(0))
 	#categories
-		transform(rotate(-90deg) translateX(-200vh))
+		//transform(rotate(-90deg) translateX(-200vh))
 
 body:not(.intro)
 	header
@@ -267,7 +275,7 @@ body:not(.intro)
 		transition(transform 2s $kinetic)
 		transform(translateZ(0) translateZ(0))
 	#categories
-		transition(transform 2s $kinetic)
+		//transition(transform 2s $kinetic)
 		transform(rotate(-90deg) translateX(-100vh))
 
 #container
@@ -316,16 +324,18 @@ header
 	padding '0 calc(%s + 8.583333333333332%)' % ($padding)
 	margin-top 0
 	hideselect()
+	+below($md)
+		padding 0 $padding
 	.category-grid
 		margin-top 7rem
 		width 100%
+		background $primary
+		position relative
+		z-index 1
 		display inline-flex
 		justify-content center
 		align-items center
 		flex-wrap wrap
-		background $primary
-		position relative
-		z-index 1
 		&::before, &::after
 			display none
 		&.active
@@ -342,7 +352,7 @@ header
 			margin-bottom ($frame*3)
 			+below($md)
 				width 100%
-				flex auto
+				// flex 1
 			&.size-2
 				+above($md + 1)
 					//flex 2
@@ -363,7 +373,8 @@ header
 					order 1
 			a
 				display block
-				padding 0 $frame
+				+above($md + 1)
+					padding 0 $frame
 			.project-image
 				//cursor none
 				position relative
@@ -420,7 +431,14 @@ header
 				background url('../../images/loader.gif') center no-repeat
 				background-size 7px
 			.content.video
-				width 100%
+				display block
+				position relative
+				width 60%
+				.plyr
+					align(vertical)
+					width 100%
+					.plyr__controls
+						//display none
 		.slide.is-selected
 			visibility visible
 			z-index 1
@@ -463,10 +481,15 @@ header
 		z-index 100
 		background $primary
 		transition(transform 600ms ease)
-		transform(translateY(20rem - $padding) translateZ(0))
-		&.visible//, &:hover
-			transition(transform 400ms $kinetic)
+		transform(translateY(25rem - $padding) translateZ(0))
+		+below($xl)
+			transform(translateY(20rem - $padding) translateZ(0))
+		+below($lg)
+			transform(translateY(15rem - $padding) translateZ(0))
+		&.visible, &:hover
+			transition(transform 300ms $kinetic)
 			transform(translateY(0) translateZ(0))
+		&.visible
 			.top-bar
 				.overview
 					//transform(translateY(-2rem) translateZ(0))
@@ -478,6 +501,7 @@ header
 			justify-content space-between
 			align-items center
 			overflow hidden
+			cursor pointer
 			.job-title, .overview
 				width 25%
 			.project-title
@@ -486,14 +510,17 @@ header
 				text-transform uppercase
 			.overview
 				//transition(transform 400ms $kinetic)
-				cursor pointer
 				text-align right
 				&::after
 					content 'Overview'
 		.slider-nav
 			width 100%
 			padding $padding 0
-			height 20rem
+			height 25rem
+			+below($xl)
+				height 20rem
+			+below($lg)
+				height 15rem
 			.slide
 				height 100%
 				margin 0 .3rem
