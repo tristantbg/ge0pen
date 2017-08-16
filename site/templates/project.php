@@ -55,12 +55,14 @@
 					<img src="<?= resizeOnDemand($image, 1500) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 				</noscript>
 				<?php if($image->duo()->bool()): ?>
-					<?php $duo = true ?>
 					<?php $imageduo = $images->get($idx+1)->toFile() ?>
+					<?php if($imageduo): ?>
+					<?php $duo = true ?>
 					<img class="lazyimg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-flickity-lazyload="<?= resizeOnDemand($imageduo, 1500, true) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 					<noscript>
 						<img src="<?= resizeOnDemand($imageduo, 1500) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 					</noscript>
+					<?php endif ?>
 				<?php endif ?>
 				
 			</div>
@@ -94,9 +96,11 @@
 			<div class="slide">
 				<img class="lazyimg lazyload lazypreload" src="<?= thumb($image, array('height' => 300))->url() ?>" height="100%" width="auto" />
 				<?php if($image->duo()->bool()): ?>
-					<?php $duo = true ?>
 					<?php $imageduo = $images->get($idx+1)->toFile() ?>
+					<?php if($imageduo): ?>
+					<?php $duo = true ?>
 					<img class="lazyimg lazyload lazypreload" src="<?= thumb($imageduo, array('height' => 300))->url() ?>" height="100%" width="auto" />
+					<?php endif ?>
 				<?php endif ?>
 			</div>
 			
