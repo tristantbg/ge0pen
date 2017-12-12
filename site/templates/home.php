@@ -38,7 +38,7 @@
 					$size = 'size-'.rand(1,3);
 				}
 				$srcset = '';
-				for ($i = 500; $i <= 2000; $i += 500) $srcset .= resizeOnDemand($featured, $i) . ' ' . $i . 'w,';
+				for ($i = 500; $i <= 2000; $i += 500) $srcset .= $featured->width($i)->url() . ' ' . $i . 'w,';
 				?>
 
 				<div class="project-item <?= $featured->orientation() ?> <?= 'size-'.$size ?> <?= $position ?>">
@@ -49,8 +49,8 @@
 						<img 
 						class="lazyimg lazyload lazypreload" 
 						src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" 
-						src="<?= resizeOnDemand($featured, 100) ?>" 
-						data-src="<?= resizeOnDemand($featured, 1500) ?>" 
+						src="<?= $featured->width(100)->url() ?>" 
+						data-src="<?= $featured->width(1500)->url() ?>" 
 						data-srcset="<?= $srcset ?>" 
 						data-sizes="auto" 
 						data-optimumx="1.5" 

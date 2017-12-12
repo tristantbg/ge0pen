@@ -33,8 +33,8 @@
 				<div class="project-image">
 					<img 
 					class="lazyimg lazyload" 
-					src="<?= resizeOnDemand($featured, 600) ?>" 
-					data-src="<?= resizeOnDemand($featured, 1300) ?>" 
+					src="<?= $featured->width(600)->url() ?>" 
+					data-src="<?= $featured->width(1300)->url() ?>" 
 					alt="<?= $project->title()->html().' - © '.$site->title()->html() ?>" 
 					width="100%" height="auto" />
 					<?php if($project->category() == 'motion'): ?>

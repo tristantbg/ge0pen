@@ -16,14 +16,10 @@
 		<meta name="description" content="<?= $site->description()->html() ?>">
 	<?php else: ?>
 		<meta name="DC.Title" content="<?= $page->title()->html() ?>" />
-		<?php if(isset($description)): ?>
-			<meta name="description" content="<?= $description ?>">
-			<meta name="DC.Description" content="<?= $description ?>"/ >
-			<meta property="og:description" content="<?= $description ?>" />
-		<?php elseif(!$page->text()->empty()): ?>
-			<meta name="description" content="">
-			<meta name="DC.Description" content=""/ >
-			<meta property="og:description" content="" />
+		<?php if(!$page->text()->empty()): ?>
+			<meta name="description" content="<?= $page->text()->excerpt(250) ?>">
+			<meta name="DC.Description" content="<?= $page->text()->excerpt(250) ?>"/ >
+			<meta property="og:description" content="<?= $page->text()->excerpt(250) ?>" />
 		<?php else: ?>
 			<meta name="description" content="">
 			<meta name="DC.Description" content=""/ >
@@ -41,19 +37,25 @@
 	<?php endif ?>
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="<?= html($page->url()) ?>" />
-	<?php if($page->content()->name() == "project"): ?>
-		<?php if (!$page->featured()->empty()): ?>
-			<meta property="og:image" content="<?= resizeOnDemand($page->image($page->featured()), 1200) ?>"/>
+	<?php if($page->intendedTemplate() == "project"): ?>
+		<?php if ($page->featured()->isNotEmpty() && $ogimage = $page->featured()->toFile()): ?>
+			<?php $ogimage = $ogimage->width(1200) ?>
+			<meta property="og:image" content="<?= $ogimage->url() ?>"/>
+			<meta property="og:image:width" content="<?= $ogimage->width() ?>"/>
+			<meta property="og:image:height" content="<?= $ogimage->height() ?>"/>
 		<?php endif ?>
 	<?php else: ?>
-		<?php if(!$site->ogimage()->empty()): ?>
-			<meta property="og:image" content="<?= $site->ogimage()->toFile()->width(1200)->url() ?>"/>
+		<?php if($site->ogimage()->isNotEmpty() && $ogimage = $site->ogimage()->toFile()): ?>
+			<?php $ogimage = $ogimage->width(1200) ?>
+			<meta property="og:image" content="<?= $ogimage->url() ?>"/>
+			<meta property="og:image:width" content="<?= $ogimage->width() ?>"/>
+			<meta property="og:image:height" content="<?= $ogimage->height() ?>"/>
 		<?php endif ?>
 	<?php endif ?>
 
 	<meta itemprop="description" content="<?= $site->description()->html() ?>">
-	<!-- <link rel="shortcut icon" href="<?php //url('assets/images/favicon.ico') ?>">
-	<link rel="icon" href="<?php //url('assets/images/favicon.ico') ?>" type="image/x-icon"> -->
+	<link rel="shortcut icon" href="<?= url('assets/images/favicon.ico') ?>">
+	<link rel="icon" href="<?= url('assets/images/favicon.ico') ?>" type="image/x-icon">
 
 	<?php 
 	echo css('assets/css/build/build.min.css');
@@ -90,7 +92,7 @@
 			<?php $image = $image->toFile(); ?>
 				<div class="slide">
 					<div class="content">
-						<img class="lazyimg lazyload lazypreload" src="<?= resizeOnDemand($image, 1200) ?>" width="100%" height="auto" />
+						<img class="lazyimg lazyload lazypreload" src="<?= $image->width(1200)->url() ?>" width="100%" height="auto" />
 					</div>
 				</div>
 		<?php $idx++ ?>

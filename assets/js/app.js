@@ -10,7 +10,7 @@ var width = $(window).width(),
     $projectsContent,
     projectsScroll,
     lastTarget = false,
-    $root = '/georgiapendlebury';
+    $root = '';
 $(function() {
     var app = {
         init: function() {
@@ -142,7 +142,7 @@ $(function() {
                     if (lastSeenAt.x) {
                         totalDistance += Math.sqrt(Math.pow(lastSeenAt.y - event.clientY, 2) + Math.pow(lastSeenAt.x - event.clientX, 2));
                         //Math.round(totalDistance);
-                        console.log(totalDistance % 100);
+                        // console.log(totalDistance % 100);
                         if (totalDistance > 200) {
                             changeIntro();
                             totalDistance = 0;

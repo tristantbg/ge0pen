@@ -1,5 +1,5 @@
 @import 'nib'
-@import '../../node_modules/jeet/styl/index';
+@import '../../node_modules/jeet/jeet';
 @import '_mixins.styl'
 
 // Media queries
@@ -151,7 +151,7 @@ a, a:hover, a:visited, a:focus
 
 @keyframes rotate {
     100% {
-        transform(rotate(360deg))
+        transform rotate(360deg)
     }
 }
 
@@ -216,7 +216,7 @@ a, a:hover, a:visited, a:focus
 		height 100vh
 		hideselect()
 		.flickity-slider
-			transform(none !important)
+			transform none !important
 		.flickity-viewport
 			cursor pointer
 		.slide
@@ -231,6 +231,8 @@ a, a:hover, a:visited, a:focus
 				width 30%
 		.slide.is-selected, .slide.overlap
 			visibility visible
+			+below($md)
+				opacity 0
 			//z-index 1
 
 #categories
@@ -239,44 +241,49 @@ a, a:hover, a:visited, a:focus
 	top 0
 	left 0
 	width 100vh
-	transform(rotate(-90deg) translateX(-100vh))
+	transform rotate(-90deg) translateX(-100vh)
 	transform-origin top left
 	display inline-flex
 	justify-content center
 	align-items center
 	text-transform uppercase
 	z-index 3
+	+below($md)
+		display none
 	.category
 		cursor pointer
 		position relative
 		margin 0 $padding
 		padding $padding 0
-		transition(transform 400ms ease)
-		transform(translateY(-0.75em) translateZ(0))
+		transition transform 400ms ease
+		transform translateY(-0.75em) translateZ(0)
 		&.active, &:hover
-			transform(translateY(0) translateZ(0))
+			transform translateY(0) translateZ(0)
 
 body.intro
 	overflow hidden
 	#container
-		transform(translateY(100vh) translateZ(0))
+		transform translateY(100vh) translateZ(0)
 	#categories
 		//transform(rotate(-90deg) translateX(-200vh))
 
 body:not(.intro)
 	header
 		#site-title, .menu-item
-			transition(transform 2s $kinetic)
-			transform(translateZ(0) !important)
+			transition transform 2s $kinetic
+			transform translateZ(0) !important
+		.menu-item
+			+below($md)
+				opacity 0
 	#intro
-		transition(transform 2s $kinetic)
-		transform(translateY(-100%) translateZ(0))
+		transition transform 2s $kinetic
+		transform translateY(-100%) translateZ(0)
 	#container
-		transition(transform 2s $kinetic)
-		transform(translateZ(0) translateZ(0))
+		transition transform 2s $kinetic
+		transform translateZ(0) translateZ(0)
 	#categories
 		//transition(transform 2s $kinetic)
-		transform(rotate(-90deg) translateX(-100vh))
+		transform rotate(-90deg) translateX(-100vh)
 
 #container
 	span(1)
@@ -303,6 +310,8 @@ header
 			text-align center
 	#site-title, .menu-item
 		padding-right 5%
+		+below($md)
+			transition transform 2s $kinetic, opacity 2s $kinetic
 	#back
 		position absolute
 		height 1rem
@@ -426,10 +435,18 @@ header
 			visibility hidden
 			.content
 				height 100%
-				padding 8% 0
+				padding 8% $padding
 				display inline-flex
 				background url('../../images/loader.gif') center no-repeat
 				background-size 7px
+				img, video
+					+below($md)
+						width 100%
+						height 100%
+						object-fit contain
+				.duo
+					+below($md)
+						width 50%
 			.content.video
 				display block
 				position relative
@@ -470,7 +487,7 @@ header
 				display none
 			&:hover
 				&::after
-					transform(scale(0.9))
+					transform scale(0.9)
 	.overview-nav
 		hideselect()
 		position fixed
@@ -480,15 +497,19 @@ header
 		padding $padding $padding 0
 		z-index 100
 		background $primary
-		transition(transform 600ms ease)
-		transform(translateY(25rem - $padding) translateZ(0))
+		transition transform 600ms ease
+		transform translateY(25rem - $padding) translateZ(0)
 		+below($xl)
-			transform(translateY(20rem - $padding) translateZ(0))
+			transform translateY(20rem - $padding) translateZ(0)
 		+below($lg)
-			transform(translateY(15rem - $padding) translateZ(0))
-		&.visible, &:hover
-			transition(transform 300ms $kinetic)
-			transform(translateY(0) translateZ(0))
+			transform translateY(15rem - $padding) translateZ(0)
+		&.visible
+			transition transform 300ms $kinetic
+			transform translateY(0) translateZ(0)
+		&:hover
+			+above($md + 1)
+				transition transform 300ms $kinetic
+				transform translateY(0) translateZ(0)
 		&.visible
 			.top-bar
 				.overview
@@ -499,15 +520,20 @@ header
 			width 100%
 			display inline-flex
 			justify-content space-between
-			align-items center
+			align-items flex-start
 			overflow hidden
 			cursor pointer
 			.job-title, .overview
 				width 25%
+			.job-title
+				+below($sm)
+					display none				
 			.project-title
 				flex-grow 1
 				text-align center
 				text-transform uppercase
+				+below($sm)
+					text-align left
 			.overview
 				//transition(transform 400ms $kinetic)
 				text-align right
@@ -545,5 +571,5 @@ body.is-loading
 
 body.idle
 	header div:not(#site-title), .flickity-prev-next-button, .overview-nav:not(.visible)
-		transition(opacity 200ms ease)
+		transition opacity 200ms ease
 		opacity 0

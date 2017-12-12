@@ -22,7 +22,7 @@
 		<?php if($image->videofile()->isNotEmpty() or $image->videolink()->isNotEmpty() or $image->videoexternal()->isNotEmpty()): ?>
 			<div class="content video">
 				<?php 
-				$poster = resizeOnDemand($image,1500);
+				$poster = $image->width(1500)->url();
 				if ($image->videoexternal()->isNotEmpty()) {
 					echo '<video class="js-player" poster="'.$poster.'" width="100%" height="100%" controls="false" loop><source src=' . $image->videoexternal() . ' type="video/mp4"></video>';
 				}
@@ -50,17 +50,17 @@
 			</div>
 		<?php else: ?>
 			<div class="content">
-				<img class="lazyimg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-flickity-lazyload="<?= resizeOnDemand($image, 1500, true) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
+				<img class="lazyimg<?php e($image->duo()->bool(), ' duo') ?>" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-flickity-lazyload="<?= $image->height(1500)->url() ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 				<noscript>
-					<img src="<?= resizeOnDemand($image, 1500) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
+					<img src="<?= $image->width(1500)->url() ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 				</noscript>
 				<?php if($image->duo()->bool()): ?>
 					<?php $imageduo = $images->get($idx+1)->toFile() ?>
 					<?php if($imageduo): ?>
 					<?php $duo = true ?>
-					<img class="lazyimg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-flickity-lazyload="<?= resizeOnDemand($imageduo, 1500, true) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
+					<img class="duo lazyimg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-flickity-lazyload="<?= $imageduo->height(1500)->url() ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 					<noscript>
-						<img src="<?= resizeOnDemand($imageduo, 1500) ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
+						<img src="<?= $imageduo->width(1500)->url() ?>" alt="<?= $title.' - © '.$site->title()->html() ?>" height="100%" width="auto" />
 					</noscript>
 					<?php endif ?>
 				<?php endif ?>
