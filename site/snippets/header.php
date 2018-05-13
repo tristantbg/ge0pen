@@ -89,12 +89,13 @@
 	<div class="slider-intro">
 		<?php $idx = 0 ?>
 		<?php foreach ($site->homepage()->featured()->toStructure()->shuffle() as $key => $image): ?>
-			<?php $image = $image->toFile(); ?>
+			<?php if ($image = $image->toFile()): ?>
 				<div class="slide">
 					<div class="content">
 						<img class="lazyimg lazyload lazypreload" src="<?= $image->width(1200)->url() ?>" width="100%" height="auto" />
 					</div>
 				</div>
+			<?php endif ?>
 		<?php $idx++ ?>
 		<?php endforeach ?>
 	</div>
